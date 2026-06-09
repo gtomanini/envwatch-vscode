@@ -1,0 +1,105 @@
+{
+  "name": "envwatch",
+  "displayName": "EnvWatch",
+  "publisher": "GustavoTomanini",
+  "description": "Detects missing environment variables in Laravel, Spring Boot, Node.js and Symfony projects",
+  "version": "0.1.0",
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Linters"
+  ],
+  "activationEvents": [
+    "workspaceContains:**/.env",
+    "workspaceContains:**/application.properties",
+    "workspaceContains:**/application.yml",
+    "workspaceContains:**/package.json",
+    "workspaceContains:**/symfony.lock",
+    "workspaceContains:**/bin/console"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "envwatch",
+          "title": "EnvWatch",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "envwatch": [
+        {
+          "id": "envwatch.panel",
+          "name": "Environment Variables"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "envwatch.scan",
+        "title": "EnvWatch: Scan Project",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "envwatch.openFile",
+        "title": "Open File"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "envwatch.scan",
+          "when": "view == envwatch.panel",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "EnvWatch",
+      "properties": {
+        "envwatch.severity": {
+          "type": "string",
+          "enum": [
+            "error",
+            "warning",
+            "information"
+          ],
+          "default": "warning",
+          "description": "Severity level for missing environment variable diagnostics"
+        },
+        "envwatch.exclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/vendor/**",
+            "**/node_modules/**",
+            "**/target/**"
+          ],
+          "description": "Glob patterns to exclude from scanning"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vscode/vsce": "^2.22.0",
+    "eslint": "^8.0.0",
+    "sharp": "^0.32.6",
+    "typescript": "^5.3.0"
+  }
+}

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1e2e"/>
+      <stop offset="100%" style="stop-color:#2d2d44"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4c9be8"/>
+      <stop offset="100%" style="stop-color:#2f6eb5"/>
+    </linearGradient>
+    <linearGradient id="warn" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f9e04b"/>
+      <stop offset="100%" style="stop-color:#e8a020"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="62" fill="url(#bg)" stroke="#3a3a5c" stroke-width="2"/>
+
+  <!-- Shield -->
+  <path d="M64 18 L94 30 L94 62 C94 80 78 95 64 103 C50 95 34 80 34 62 L34 30 Z"
+        fill="url(#shield)" stroke="#6ab0f5" stroke-width="1.5" stroke-linejoin="round"/>
+
+  <!-- Shield shine -->
+  <path d="M64 22 L88 32 L88 62 C88 77 75 90 64 98"
+        fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Warning triangle -->
+  <path d="M64 42 L79 72 L49 72 Z"
+        fill="url(#warn)" stroke="#c8860a" stroke-width="1" stroke-linejoin="round"/>
+
+  <!-- ! dot -->
+  <circle cx="64" cy="68" r="2.5" fill="#1e1e2e"/>
+  <!-- ! bar -->
+  <rect x="61.5" y="49" width="5" height="13" rx="2.5" fill="#1e1e2e"/>
+</svg>
