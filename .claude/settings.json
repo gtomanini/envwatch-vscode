@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm ci)",
+      "Bash(npm run compile)",
+      "Bash(npm run watch)",
+      "Bash(npm run lint)",
+      "Bash(npm run package)",
+      "Bash(npx tsc:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout -b:*)",
+      "Bash(git switch:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [
+      "Bash(npx vsce publish:*)",
+      "Bash(node node_modules/.bin/vsce publish:*)",
+      "Bash(git push --force:*)",
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  }
+}

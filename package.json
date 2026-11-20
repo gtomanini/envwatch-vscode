@@ -3,6 +3,24 @@
   "displayName": "EnvWatch",
   "publisher": "GustavoTomanini",
   "description": "Detects missing environment variables in Laravel, Spring Boot, Node.js and Symfony projects",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gtomanini/envwatch-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gtomanini/envwatch-vscode/issues"
+  },
+  "homepage": "https://github.com/gtomanini/envwatch-vscode#readme",
+  "keywords": [
+    "env",
+    "dotenv",
+    "environment variables",
+    "laravel",
+    "symfony",
+    "spring boot",
+    "nodejs"
+  ],
   "version": "0.1.0",
   "icon": "media/icon.png",
   "engines": {
@@ -11,6 +29,11 @@
   "categories": [
     "Linters"
   ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
   "activationEvents": [
     "workspaceContains:**/.env",
     "workspaceContains:**/application.properties",
@@ -100,7 +123,6 @@
     "@typescript-eslint/parser": "^8.62.1",
     "@vscode/vsce": "^3.9.2",
     "eslint": "^8.0.0",
-    "sharp": "^0.32.6",
     "typescript": "^5.3.0"
   }
 }

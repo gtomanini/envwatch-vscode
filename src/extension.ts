@@ -35,7 +35,7 @@ export function activate(context: vscode.ExtensionContext): void {
     if (!folders || folders.length === 0) return;
 
     treeProvider.setLoading();
-    await Promise.all(folders.map((f) => provider.scan(f.uri, DETECTORS)));
+    await provider.scan(folders.map((f) => f.uri), DETECTORS);
   };
 
   context.subscriptions.push(
@@ -63,7 +63,10 @@ export function activate(context: vscode.ExtensionContext): void {
   // Re-scan when source files are saved
   context.subscriptions.push(
     vscode.workspace.onDidSaveTextDocument((doc) => {
-      const relevant = ['.php', '.java', '.kt', '.properties', '.yml', '.yaml'];
+      const relevant = [
+        '.php', '.java', '.kt', '.properties', '.yml', '.yaml',
+        '.js', '.ts', '.mjs', '.cjs', '.jsx', '.tsx',
+      ];
       if (relevant.some((ext) => doc.fileName.endsWith(ext))) {
         runScan();
       }

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { Detector, EnvVarReference } from './detectors/index';
+import { DefinedVars, Detector, EnvVarReference } from './detectors/index';
 import { ScanResult } from './treeview';
 
 export class DiagnosticsProvider {
@@ -11,29 +11,24 @@ export class DiagnosticsProvider {
     this.onScanComplete = onScanComplete;
   }
 
-  async scan(workspaceRoot: vscode.Uri, detectors: Detector[]): Promise<void> {
-    this.collection.clear();
+  private scanGeneration = 0;
 
-    const activeDetectors: Detector[] = [];
-    for (const d of detectors) {
-      if (await d.detect(workspaceRoot)) {
-        activeDetectors.push(d);
-      }
-    }
+  /**
+   * Scans every workspace folder and replaces all diagnostics in one go.
+   * Scanning all roots together keeps multi-root workspaces from clearing each
+   * other's results; the generation counter drops results from a scan that was
+   * superseded by a newer one while it was still running.
+   */
+  async scan(workspaceRoots: readonly vscode.Uri[], detectors: Detector[]): Promise<void> {
+    const generation = ++this.scanGeneration;
 
-    if (activeDetectors.length === 0) {
-      this.onScanComplete?.({ missing: [], defined: [] });
-      return;
-    }
-
-    const severity = getSeverity();
-
-    const results = await Promise.all(
-      activeDetectors.map(async (d) => ({
-        refs: await d.findReferences(workspaceRoot),
-        defined: await d.findDefined(workspaceRoot),
-      }))
+    const perRoot = await Promise.all(
+      workspaceRoots.map((root) => scanRoot(root, detectors))
     );
+    if (generation !== this.scanGeneration) return;
+
+    const results = perRoot.flat();
+    const severity = getSeverity();
 
     const diagMap = new Map<string, vscode.Diagnostic[]>();
     const missingRefs: EnvVarReference[] = [];
@@ -69,6 +64,7 @@ export class DiagnosticsProvider {
       }
     }
 
+    this.collection.clear();
     for (const [uriStr, diags] of diagMap) {
       this.collection.set(vscode.Uri.parse(uriStr), dedup(diags));
     }
@@ -85,6 +81,24 @@ export class DiagnosticsProvider {
   dispose(): void {
     this.collection.dispose();
   }
+}
+
+interface DetectorResult {
+  refs: EnvVarReference[];
+  defined: DefinedVars;
+}
+
+async function scanRoot(root: vscode.Uri, detectors: Detector[]): Promise<DetectorResult[]> {
+  const active: Detector[] = [];
+  for (const d of detectors) {
+    if (await d.detect(root)) active.push(d);
+  }
+  return Promise.all(
+    active.map(async (d) => ({
+      refs: await d.findReferences(root),
+      defined: await d.findDefined(root),
+    }))
+  );
 }
 
 function dedup(diags: vscode.Diagnostic[]): vscode.Diagnostic[] {
