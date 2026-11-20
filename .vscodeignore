@@ -5,3 +5,10 @@ node_modules/**
 tsconfig.json
 **/*.map
 media/icon-source.svg
+.claude/**
+CLAUDE.md
+.github/**
+CONTRIBUTING.md
+SECURITY.md
+.eslintrc.json
+.nvmrc

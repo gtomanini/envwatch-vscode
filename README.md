@@ -11,12 +11,16 @@ Never ship a missing environment variable again.
 ### Inline diagnostics
 Missing variables appear underlined right where they are used. No need to leave your editor or run the app to discover the problem.
 
-![Inline warning showing DB_PASSWORD is not defined](https://raw.githubusercontent.com/your-org/missing-env-vars/main/media/screenshot-inline.png)
+<!-- TODO: add media/screenshot-inline.png, then uncomment
+![Inline warning showing DB_PASSWORD is not defined](https://raw.githubusercontent.com/gtomanini/envwatch-vscode/main/media/screenshot-inline.png)
+-->
 
 ### Sidebar panel
-Click the **Env Vars** icon in the Activity Bar to see a full list of missing and defined variables. Click any missing variable to jump directly to where it is used.
+Click the **EnvWatch** icon in the Activity Bar to see a full list of missing and defined variables. Click any missing variable to jump directly to where it is used.
 
-![Sidebar panel showing missing and defined variables](https://raw.githubusercontent.com/your-org/missing-env-vars/main/media/screenshot-panel.png)
+<!-- TODO: add media/screenshot-panel.png, then uncomment
+![Sidebar panel showing missing and defined variables](https://raw.githubusercontent.com/gtomanini/envwatch-vscode/main/media/screenshot-panel.png)
+-->
 
 ### Automatic rescanning
 The extension rescans automatically when you save a source file or modify a `.env` file. You can also trigger a manual scan at any time via the refresh button in the panel or the command palette.
@@ -64,6 +68,18 @@ export interface Detector {
 ```
 
 Then register the new detector in `src/extension.ts`. No other changes required.
+
+---
+
+## Privacy
+
+EnvWatch runs entirely locally. It reads only variable **names** from your config files (never their values), makes no network requests and collects no telemetry. Variables that exist only in your OS environment are used to suppress warnings but are never displayed.
+
+---
+
+## Contributing
+
+Issues and pull requests are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). To report a security issue, see [SECURITY.md](SECURITY.md).
 
 ---
 
